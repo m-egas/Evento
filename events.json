@@ -1,0 +1,202 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Michael Turner",
+      "username": "michael",
+      "image": "https://images.pexels.com/photos/31510092/pexels-photo-31510092.jpeg"
+    },
+    {
+      "id": "2",
+      "name": "Sophia Collins",
+      "username": "sophia",
+      "image": "https://images.pexels.com/photos/18255639/pexels-photo-18255639.jpeg"
+    },
+    {
+      "id": "3",
+      "name": "Emily Carter",
+      "username": "emily",
+      "image": "https://images.pexels.com/photos/3762758/pexels-photo-3762758.jpeg"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "createdBy": 1,
+      "title": "Trampoline party",
+      "description": "Bounce around with your friends",
+      "image": "/images/trampolineparty.webp",
+      "categoryIds": [4, 5, 7],
+      "location": "My back yard",
+      "startTime": "2026-03-10T18:00",
+      "endTime": "2026-03-10T20:00"
+    },
+    {
+      "id": "2",
+      "createdBy": 1,
+      "title": "Laser Tag mania",
+      "description": "Let's play laser tag!",
+      "image": "/images/lasertag.webp",
+      "categoryIds": [2],
+      "location": "Blinded by the Lights Laser Tag, 15 Main St.",
+      "startTime": "2026-10-06T18:30",
+      "endTime": "2026-10-06T20:30"
+    },
+    {
+      "id": "3",
+      "createdBy": 2,
+      "title": "Badminton game",
+      "description": "Hit that shuttle!",
+      "image": "/images/badmintongame.webp",
+      "categoryIds": [1, 2, 4],
+      "location": "The Park",
+      "startTime": "2026-03-15T12:00",
+      "endTime": "2026-03-15T13:30"
+    },
+    {
+      "id": "4",
+      "createdBy": 2,
+      "title": "Yoga",
+      "description": "It's a bit of a stretch.",
+      "image": "/images/yoga.webp",
+      "categoryIds": [3],
+      "location": "Shavasana Yoga School",
+      "startTime": "2026-03-09T06:00",
+      "endTime": "2026-03-09T07:00"
+    },
+    {
+      "id": "5",
+      "createdBy": 2,
+      "title": "Tennis",
+      "description": "Serving up fun on the court.",
+      "image": "/images/tennis.webp",
+      "categoryIds": [1],
+      "location": "Grand Slam Tennis Court",
+      "startTime": "2026-03-09T08:00",
+      "endTime": "2026-03-09T10:00"
+    },
+    {
+      "id": "6",
+      "createdBy": 5,
+      "title": "Board games night",
+      "description": "Roll the dice and join the fun!",
+      "image": "/images/boardgame.webp",
+      "categoryIds": [2, 5, 4],
+      "location": "Community Hall",
+      "startTime": "2026-03-13T18:00",
+      "endTime": "2026-03-13T21:00"
+    },
+    {
+      "id": "7",
+      "createdBy": 2,
+      "title": "Tea tasting",
+      "description": "Savor the soothing flavors of herbal teas.",
+      "image": "/images/teatasting.webp",
+      "categoryIds": [5],
+      "location": "Cozy Tea House",
+      "startTime": "2026-03-17T15:00",
+      "endTime": "2026-03-17T17:00"
+    },
+    {
+      "id": "8",
+      "createdBy": 6,
+      "title": "Nature walk",
+      "description": "Connect with nature and clear your mind.",
+      "image": "/images/naturewalk.webp",
+      "categoryIds": [3, 10],
+      "location": "Forest Trailhead",
+      "startTime": "2026-03-16T07:00",
+      "endTime": "2026-03-16T09:30"
+    },
+    {
+      "id": "9",
+      "createdBy": 3,
+      "title": "Bowling night",
+      "description": "Strike up some fun with friends at the lanes!",
+      "image": "/images/bowling.webp",
+      "categoryIds": [2, 5],
+      "location": "Downtown Bowling Alley",
+      "startTime": "2026-03-19T18:00",
+      "endTime": "2026-03-19T21:00"
+    },
+    {
+      "createdBy": 3,
+      "title": "Poetry reading",
+      "description": "An evening where poets and poetry lovers come together to share and listen to poems. ",
+      "image": "/images/poetryreading.webp",
+      "categoryIds": [9, 6, 8],
+      "location": "Neude 11, 3512 AE Utrecht",
+      "startTime": "2026-08-29T20:30",
+      "endTime": "2026-08-29T22:00",
+      "id": "FnxsM9az600"
+    },
+    {
+      "createdBy": 3,
+      "title": "Language Café",
+      "description": "Meet new people, and enjoy conversations over coffee or drinks.",
+      "image": "/images/languagecafe.webp",
+      "categoryIds": [8, 9, 5],
+      "location": "Kortestraat 16, 6811 EP Arnhem",
+      "startTime": "2026-09-09T12:30",
+      "endTime": "2026-09-09T14:30",
+      "id": "LhyrJpyGeSE"
+    },
+    {
+      "createdBy": 3,
+      "title": "Museum Learning Evening",
+      "description": "An evening of discovering art in a relaxed and interactive way.",
+      "image": "/images/museum.webp",
+      "categoryIds": [6, 5, 9],
+      "location": "Museum Square, Honthorststraat 20, 1071 DE Amsterdam",
+      "startTime": "2026-09-26T19:30",
+      "endTime": "2026-09-26T21:30",
+      "id": "IHCxhyYd-Ds"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Sports",
+      "id": "1"
+    },
+    {
+      "name": "Games",
+      "id": "2"
+    },
+    {
+      "name": "Relaxation",
+      "id": "3"
+    },
+    {
+      "name": "Hobbies",
+      "id": "4"
+    },
+    {
+      "name": "Social",
+      "id": "5"
+    },
+    {
+      "name": "Art & Culture",
+      "id": "6"
+    },
+    {
+      "name": "Dancing",
+      "id": "7"
+    },
+    {
+      "name": "Languages",
+      "id": "8"
+    },
+    {
+      "name": "Education",
+      "id": "9"
+    },
+    {
+      "name": "Outdoor",
+      "id": "10"
+    },
+    {
+      "name": "Career",
+      "id": "11"
+    }
+  ]
+}
