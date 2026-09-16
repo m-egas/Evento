@@ -76,12 +76,13 @@ design, routing, API requests, and reusable components.
 
 ## Responsive Design
 
-<p>
-  <img src="./screenshots/15-login-home-mobile.webp" alt="Home - Mobile" width="250">
-  <img src="./screenshots/16-login-events-mobile.webp" alt="Events - Mobile" width="250">
-  <img src="./screenshots/17-login-addnew event-mobile.webp" alt="Add new event - Mobile" width="250">
-  <img src="./screenshots/18-login-event-card-mobile.webp" alt="Event - Mobile" width="250">
-</p>
+<div align="center"> <div> 
+<img src="./screenshots/15-login-home-mobile.webp" alt="Home - Mobile" width="250"> 
+<img src="./screenshots/16-login-events-mobile.webp" alt="Events - Mobile" width="250"> 
+</div> <br> <div> 
+<img src="./screenshots/17-login-addnew-event-mobile.webp" alt="Add new event - Mobile" width="250"> 
+<img src="./screenshots/18-login-event-card-mobile.webp" alt="Event - Mobile" width="250"> 
+</div> </div>
 
 ## Technologies
 
@@ -105,7 +106,7 @@ Make sure you have Node.js and npm installed on your computer.
 Clone the repository and navigate to the project folder.
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/m-egas/Evento.git
 cd Evento
 ```
 
