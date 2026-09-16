@@ -77,11 +77,11 @@ design, routing, API requests, and reusable components.
 ## Responsive Design
 
 <div align="center"> <div> 
-<img src="./screenshots/15-login-home-mobile.webp" alt="Home - Mobile" width="250"> 
-<img src="./screenshots/16-login-events-mobile.webp" alt="Events - Mobile" width="250"> 
+<img src="./screenshots/15-login-home-mobile.webp" alt="Home - Mobile" width="250" height="540"> 
+<img src="./screenshots/16-login-events-mobile.webp" alt="Events - Mobile" width="250" height="540"> 
 </div> <br> <div> 
-<img src="./screenshots/17-login-addnew-event-mobile.webp" alt="Add new event - Mobile" width="250"> 
-<img src="./screenshots/18-login-event-card-mobile.webp" alt="Event - Mobile" width="250"> 
+<img src="./screenshots/17-login-addnew-event-mobile.webp" alt="Add new event - Mobile" width="250" height="540"> 
+<img src="./screenshots/18-login-event-card-mobile.webp" alt="Event - Mobile" width="250" height="540"> 
 </div> </div>
 
 ## Technologies
