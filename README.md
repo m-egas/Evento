@@ -8,7 +8,7 @@ design, routing, API requests, and reusable components.
 ## Links
 
 - [🌐 Live Demo](https://evento.netlify.app)
-- [💻 GitHub Repository](https://github.com/m-egas/Evento)
+- [💻 GitHub Repository](https://github.com/m-egas/Evento.git)
 
 ## Features
 
