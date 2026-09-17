@@ -19,7 +19,7 @@ export const LoginPage = () => {
 
   // Handle user login
   const handleLogin = async () => {
-    // Check if username is entered
+    // Check if username was entered
     if (!username.trim()) {
       toast({
         title: "Username required",
@@ -35,22 +35,31 @@ export const LoginPage = () => {
     setLoading(true);
 
     try {
-      // Fetch users from the API
-      const response = await fetch("http://localhost:3000/users");
+      // Fetch the initial user data
+      const response = await fetch("/events.json");
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
 
-      const users = await response.json();
+      const data = await response.json();
 
-      // Find matching username
+      // Get users from the static data file
+      const existingUsers = data.users || [];
+
+      // Get users created through the signup page
+      const localUsers = JSON.parse(localStorage.getItem("localUsers")) || [];
+
+      // Combine both user lists
+      const users = [...existingUsers, ...localUsers];
+
+      // Find a user with a matching username
       const user = users.find(
         (user) =>
           user.username?.toLowerCase() === username.trim().toLowerCase(),
       );
 
-      // Show error if user does not exist
+      // Show an error if the user does not exist
       if (!user) {
         toast({
           title: "User not found",
@@ -63,10 +72,10 @@ export const LoginPage = () => {
         return;
       }
 
-      // Save logged-in user
+      // Save the logged-in user
       localStorage.setItem("currentUser", JSON.stringify(user));
 
-      // Show success message
+      // Show a success message
       toast({
         title: "Welcome back!",
         description: `Welcome back, ${user.name}!`,

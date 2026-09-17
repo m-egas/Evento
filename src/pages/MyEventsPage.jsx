@@ -38,18 +38,44 @@ export const MyEventsPage = () => {
           .filter((item) => String(item.userId) === String(currentUser.id))
           .map((item) => String(item.eventId));
 
-        // Fetch all events and categories
-        const [eventsResponse, categoriesResponse] = await Promise.all([
-          fetch("http://localhost:3000/events"),
-          fetch("http://localhost:3000/categories"),
-        ]);
+        // Fetch all the initial event and category data
+        const response = await fetch("/events.json");
 
-        if (!eventsResponse.ok || !categoriesResponse.ok) {
-          throw new Error("Failed to fetch data");
+        if (!response.ok) {
+          throw new Error("Failed to fetch event data");
         }
+        const data = await response.json();
 
-        const allEvents = await eventsResponse.json();
-        const allCategories = await categoriesResponse.json();
+        const localEvents =
+          JSON.parse(localStorage.getItem("localEvents")) || [];
+
+        const eventOverrides =
+          JSON.parse(localStorage.getItem("eventOverrides")) || {};
+
+        const deletedEventIds =
+          JSON.parse(localStorage.getItem("deletedEventIds")) || [];
+
+        // Apply edits to the original events
+        const updatedEvents = data.events.map((event) =>
+          eventOverrides[event.id]
+            ? { ...event, ...eventOverrides[event.id] }
+            : event,
+        );
+
+        // Remove deleted original events
+        const remainingEvents = updatedEvents.filter(
+          (event) => !deletedEventIds.includes(String(event.id)),
+        );
+
+        // Remove deleted local events and combine all events
+        const allEvents = [
+          ...remainingEvents,
+          ...localEvents.filter(
+            (event) => !deletedEventIds.includes(String(event.id)),
+          ),
+        ];
+
+        const allCategories = data.categories;
 
         // Keep only events the user is attending
         const myEvents = allEvents.filter((event) =>

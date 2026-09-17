@@ -11,7 +11,6 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-// Form state
 export const SignupPage = () => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -25,8 +24,21 @@ export const SignupPage = () => {
     // Check that a name was entered
     if (!name.trim()) {
       toast({
-        title: "Username required",
+        title: "Name required",
         description: "Please enter your name.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    // Check that a username was entered
+    if (!username.trim()) {
+      toast({
+        title: "Username required",
+        description: "Please enter a username.",
         status: "warning",
         duration: 3000,
         isClosable: true,
@@ -38,26 +50,55 @@ export const SignupPage = () => {
     setLoading(true);
 
     try {
-      // Send the new user to the API
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          username: username.trim().toLowerCase(),
-          image: image.trim(),
-        }),
-      });
+      // Fetch the initial user data
+      const response = await fetch("/events.json");
 
       if (!response.ok) {
-        throw new Error("Failed to create user");
+        throw new Error("Failed to fetch users");
       }
 
+      const data = await response.json();
+      const existingUsers = data.users || [];
+
+      // Get locally stored users
+      const localUsers = JSON.parse(localStorage.getItem("localUsers")) || [];
+
+      // Combine existing users with locally created users
+      const allUsers = [...existingUsers, ...localUsers];
+
+      const normalizedUsername = username.trim().toLowerCase();
+
+      // Check if the username already exists
+      const usernameExists = allUsers.some(
+        (user) => user.username?.trim().toLowerCase() === normalizedUsername,
+      );
+
+      if (usernameExists) {
+        toast({
+          title: "Username already exists",
+          description: "Please choose a different username.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
+
+      // Create a new user
+      const newUser = {
+        id: `user-${Date.now()}`,
+        name: name.trim(),
+        username: normalizedUsername,
+        image: image.trim(),
+      };
+
+      // Save the new user locally
+      const updatedLocalUsers = [...localUsers, newUser];
+
+      localStorage.setItem("localUsers", JSON.stringify(updatedLocalUsers));
+
       // Save the new user as the current user
-      const newUser = await response.json();
-      console.log("Created user:", newUser);
       localStorage.setItem("currentUser", JSON.stringify(newUser));
 
       toast({
@@ -69,7 +110,7 @@ export const SignupPage = () => {
         position: "top",
       });
 
-      // Go back to the home page
+      // Return to the home page
       navigate("/");
     } catch (error) {
       console.error("Error creating user:", error);

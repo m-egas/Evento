@@ -39,12 +39,21 @@ export const AddEventPage = () => {
     }
   }, [currentUser, navigate]);
 
-  // Fetch the available event categories from the API
+  // Fetch the available event categories
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await fetch("http://localhost:3000/categories");
-      const data = await res.json();
-      setCategories(data);
+      try {
+        const res = await fetch("/events.json");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch event data");
+        }
+
+        const data = await res.json();
+        setCategories(data.categories);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
     };
     fetchCategories();
   }, []);
@@ -59,6 +68,7 @@ export const AddEventPage = () => {
 
     // Create the new event object
     const newEvent = {
+      id: `event-${Date.now()}`,
       createdBy: currentUser.id,
       title,
       description,
@@ -69,17 +79,16 @@ export const AddEventPage = () => {
       endTime,
     };
 
-    // Send the new event to the API
-    const response = await fetch("http://localhost:3000/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newEvent),
-    });
+    // Get locally stored events
+    const localEvents = JSON.parse(localStorage.getItem("localEvents")) || [];
+
+    // Add the new event to the locally stored events
+    const updatedLocalEvents = [...localEvents, newEvent];
+
+    localStorage.setItem("localEvents", JSON.stringify(updatedLocalEvents));
 
     // Return to the home page after successfully creating the event
-    if (response.ok) {
-      navigate("/");
-    }
+    navigate("/");
   };
 
   return (

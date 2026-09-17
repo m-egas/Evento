@@ -19,7 +19,7 @@ import {
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { EventButtons } from "../components/EventButtons";
 
-// Event info for: start, end, categories
+// Display event information such as start time, end time, and categories
 const EventInfo = ({ label, value }) => (
   <Text mb={2} fontSize={{ base: "sm", md: "md" }} wordBreak="break-word">
     <Box as="span" fontWeight="bold" mr={1}>
@@ -55,7 +55,7 @@ export const EventPage = () => {
     setIsAttending(isUserAttending);
   }, [eventId]);
 
-  // Add or remove the current user from the event
+  // Add or remove the current user's attendance
   const handleAttend = () => {
     if (!currentUser) {
       return;
@@ -91,27 +91,56 @@ export const EventPage = () => {
     }
   };
 
-  // Fetch the event, categories and users from the API
+  // Fetch the event, categories and users
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch all required data at the same time
-        const [eventRes, categoriesRes, usersRes] = await Promise.all([
-          fetch(`http://localhost:3000/events/${eventId}`),
-          fetch("http://localhost:3000/categories"),
-          fetch("http://localhost:3000/users"),
-        ]);
+        // Fetch the initial event, category and user data
+        const response = await fetch("/events.json");
 
-        // Convert the responses into JSON
-        const [eventData, categoriesData, usersData] = await Promise.all([
-          eventRes.json(),
-          categoriesRes.json(),
-          usersRes.json(),
-        ]);
+        if (!response.ok) {
+          throw new Error("Failed to fetch event data");
+        }
+
+        const data = await response.json();
+
+        const localEvents =
+          JSON.parse(localStorage.getItem("localEvents")) || [];
+
+        const eventOverrides =
+          JSON.parse(localStorage.getItem("eventOverrides")) || {};
+
+        const deletedEventIds =
+          JSON.parse(localStorage.getItem("deletedEventIds")) || [];
+
+        // Apply edits to the original events
+        const updatedEvents = data.events.map((event) =>
+          eventOverrides[event.id]
+            ? { ...event, ...eventOverrides[event.id] }
+            : event,
+        );
+
+        // Remove deleted original events
+        const remainingEvents = updatedEvents.filter(
+          (event) => !deletedEventIds.includes(String(event.id)),
+        );
+
+        // Remove deleted local events and combine all events
+        const allEvents = [
+          ...remainingEvents,
+          ...localEvents.filter(
+            (event) => !deletedEventIds.includes(String(event.id)),
+          ),
+        ];
+
+        // Find the requested event
+        const eventData = allEvents.find(
+          (event) => String(event.id) === String(eventId),
+        );
 
         setEvent(eventData);
-        setCategories(categoriesData);
-        setUsers(usersData);
+        setCategories(data.categories);
+        setUsers(data.users);
       } catch (error) {
         console.error("Error loading event:", error);
       } finally {
@@ -144,12 +173,12 @@ export const EventPage = () => {
       )
       .join(", ");
 
-  // Show a loading state while the event is being fetched
+  // Show a loading state while the event data is loading
   if (loading) {
     return (
       <Center h="80vh">
         <Spinner size="md" />
-        <Text>Loading event..</Text>
+        <Text>Loading event...</Text>
       </Center>
     );
   }

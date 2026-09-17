@@ -21,27 +21,47 @@ export const HomePage = () => {
       setLoading(true);
       setError(false);
 
+      // Fetch the initial event and category data
       try {
-        const [eventsResponse, categoriesResponse] = await Promise.all([
-          fetch("http://localhost:3000/events"),
-          fetch("http://localhost:3000/categories"),
-        ]);
+        const response = await fetch("/events.json");
 
-        if (!eventsResponse.ok) {
+        if (!response.ok) {
           throw new Error("Failed to fetch events");
         }
 
-        if (!categoriesResponse.ok) {
-          throw new Error("Failed to fetch categories");
-        }
+        const data = await response.json();
 
-        const [eventsData, categoriesData] = await Promise.all([
-          eventsResponse.json(),
-          categoriesResponse.json(),
-        ]);
+        const localEvents =
+          JSON.parse(localStorage.getItem("localEvents")) || [];
 
-        setEvents(eventsData);
-        setCategories(categoriesData);
+        const eventOverrides =
+          JSON.parse(localStorage.getItem("eventOverrides")) || {};
+
+        const deletedEventIds =
+          JSON.parse(localStorage.getItem("deletedEventIds")) || [];
+
+        // Apply edits to the original events
+        const updatedEvents = data.events.map((event) =>
+          eventOverrides[event.id]
+            ? { ...event, ...eventOverrides[event.id] }
+            : event,
+        );
+
+        // Remove deleted original events
+        const remainingEvents = updatedEvents.filter(
+          (event) => !deletedEventIds.includes(String(event.id)),
+        );
+
+        // Remove deleted local events and combine all events
+        const allEvents = [
+          ...remainingEvents,
+          ...localEvents.filter(
+            (event) => !deletedEventIds.includes(String(event.id)),
+          ),
+        ];
+
+        setEvents(allEvents);
+        setCategories(data.categories);
       } catch (error) {
         console.error("Failed to fetch events or categories:", error);
         setError(true);

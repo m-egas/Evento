@@ -3,11 +3,11 @@
 Evento is a web application for discovering, creating, and joining events.
 
 The project was built as a portfolio project to practice React, responsive
-design, routing, API requests, and reusable components.
+design, routing, data fetching, local storage and reusable components.
 
 ## Links
 
-- [🌐 Live Demo](https://evento.netlify.app)
+- [🌐 Live Demo](https://evento-portfolio.netlify.app)
 - [💻 GitHub Repository](https://github.com/m-egas/Evento.git)
 
 ## Features
@@ -90,10 +90,20 @@ design, routing, API requests, and reusable components.
 - React Router
 - Chakra UI
 - Vite
-- JSON Server
 - JavaScript
 - HTML
 - CSS
+
+Data Storage
+
+Evento uses a simple client-side data architecture suitable for a portfolio project.
+
+events.json contains the initial users, events, and categories used by the application.
+localStorage stores users and events created in the browser.
+localStorage also stores event edits, deleted events, and attendance information.
+Changes made through the application are stored locally in the browser and are not shared between different users or devices.
+
+This approach allows the application to be deployed as a static website while still providing interactive features such as creating, editing, deleting, and joining events.
 
 ## Installation / Setup
 

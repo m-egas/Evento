@@ -23,7 +23,8 @@ export const EventButtons = ({ event, categories, onUpdate }) => {
   // Manage the edit/delete modals and delete loading state.
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  // Store the event information used in the edit form.
+
+  // Store the event data used in the edit form.
   const [editForm, setEditForm] = useState({
     title: event.title,
     description: event.description,
@@ -54,14 +55,41 @@ export const EventButtons = ({ event, categories, onUpdate }) => {
   // Save the edited event.
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/events/${event.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editForm),
-      });
-      if (!response.ok) throw new Error("Failed to update");
+      // Get locally stored events.
+      const localEvents = JSON.parse(localStorage.getItem("localEvents")) || [];
 
-      const updatedEvent = await response.json();
+      // Check if this is a locally created event.
+      const localEventIndex = localEvents.findIndex(
+        (localEvent) => String(localEvent.id) === String(event.id),
+      );
+
+      let updatedEvent;
+
+      if (localEventIndex !== -1) {
+        // Update the locally created event.
+        updatedEvent = {
+          ...localEvents[localEventIndex],
+          ...editForm,
+        };
+
+        const updatedLocalEvents = [...localEvents];
+        updatedLocalEvents[localEventIndex] = updatedEvent;
+
+        localStorage.setItem("localEvents", JSON.stringify(updatedLocalEvents));
+      } else {
+        // Save changes for an original event from events.json.
+        const eventOverrides =
+          JSON.parse(localStorage.getItem("eventOverrides")) || {};
+
+        updatedEvent = {
+          ...event,
+          ...editForm,
+        };
+
+        eventOverrides[event.id] = updatedEvent;
+
+        localStorage.setItem("eventOverrides", JSON.stringify(eventOverrides));
+      }
 
       // Update the event displayed on the page.
       onUpdate(updatedEvent);
@@ -93,10 +121,25 @@ export const EventButtons = ({ event, categories, onUpdate }) => {
   const handleDelete = async () => {
     setDeleting(true);
     try {
-      const response = await fetch(`http://localhost:3000/events/${event.id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete");
+      // Get the IDs of events that have been deleted.
+      const deletedEventIds =
+        JSON.parse(localStorage.getItem("deletedEventIds")) || [];
+
+      // Add this event ID to the deleted events.
+      if (!deletedEventIds.includes(String(event.id))) {
+        deletedEventIds.push(String(event.id));
+      }
+
+      localStorage.setItem("deletedEventIds", JSON.stringify(deletedEventIds));
+
+      // Remove the event from locally stored events if it exists there.
+      const localEvents = JSON.parse(localStorage.getItem("localEvents")) || [];
+
+      const updatedLocalEvents = localEvents.filter(
+        (localEvent) => String(localEvent.id) !== String(event.id),
+      );
+
+      localStorage.setItem("localEvents", JSON.stringify(updatedLocalEvents));
 
       // Show a success message after deleting.
       toast({
@@ -107,7 +150,7 @@ export const EventButtons = ({ event, categories, onUpdate }) => {
         position: "top",
       });
 
-      // Return to the events page.
+      // Return to the home page.
       navigate("/");
     } catch (error) {
       toast({
@@ -126,7 +169,7 @@ export const EventButtons = ({ event, categories, onUpdate }) => {
 
   return (
     <>
-      {/*Event action buttons*/}
+      {/* Event action buttons */}
       {isOwner && (
         <ButtonGroup
           size={{ base: "sm", md: "md" }}
