@@ -99,6 +99,7 @@ export const HomePage = () => {
 
   return (
     <Box
+      as="main"
       px={{ base: 3, sm: 4, md: 6 }}
       pb={{ base: 6, md: 8 }}
       bg="white"
