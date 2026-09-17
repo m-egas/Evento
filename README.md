@@ -94,14 +94,14 @@ design, routing, data fetching, local storage and reusable components.
 - HTML
 - CSS
 
-Data Storage
+## Data Storage
 
-Evento uses a simple client-side data architecture suitable for a portfolio project.
+Evento was originally developed using a REST API with JSON Server for local development. To make the project available as a live demo without requiring a separate backend server, the data layer was adapted for deployment as a static website.
 
-events.json contains the initial users, events, and categories used by the application.
-localStorage stores users and events created in the browser.
-localStorage also stores event edits, deleted events, and attendance information.
-Changes made through the application are stored locally in the browser and are not shared between different users or devices.
+- events.json contains the initial users, events, and categories used by the application.
+- localStorage stores users and events created in the browser.
+- localStorage also stores event edits, deleted events, and attendance information.
+- Changes made through the application are stored locally in the browser and are not shared between different users or devices.
 
 This approach allows the application to be deployed as a static website while still providing interactive features such as creating, editing, deleting, and joining events.
 
@@ -126,25 +126,15 @@ cd Evento
 npm install
 ```
 
-### 3. Start JSON Server
+### 3. Start the development server
 
-Open a terminal and run:
-
-```bash
-npx json-server events.json
-```
-
-Keep this terminal running.
-
-### 4. Start the development server
-
-Open a second terminal and run:
+Run:
 
 ```bash
 npm run dev
 ```
 
-### 5. Open the app
+### 4. Open the app
 
 Open the local URL provided by Vite in your browser.
 
