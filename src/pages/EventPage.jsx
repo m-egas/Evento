@@ -91,7 +91,7 @@ export const EventPage = () => {
     }
   };
 
-  // Fetch the event, categories and users
+  // Fetch the event, category, and user data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -173,7 +173,7 @@ export const EventPage = () => {
       )
       .join(", ");
 
-  // Show a loading state while the event data is loading
+  // Show a message if the requested event does not exist
   if (loading) {
     return (
       <Center h="80vh">
@@ -253,7 +253,7 @@ export const EventPage = () => {
               {event.description}
             </Text>
 
-            {/* Event info: start, end, categories */}
+            {/* Event info: start, end and categories */}
             <Stack spacing={{ base: 3, md: 2 }}>
               <EventInfo label="Start" value={formatDate(event.startTime)} />
               <EventInfo label="End" value={formatDate(event.endTime)} />

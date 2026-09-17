@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Heading, Box, Text, Button, Spinner, Flex } from "@chakra-ui/react";
-
 import { EventFilters } from "../components/EventsFilters";
 import { EventsGrid } from "../components/EventsGrid";
 
@@ -19,7 +18,7 @@ export const EventsPage = () => {
       setError(false);
 
       try {
-        // Fetch the initial event and cetegory data
+        // Fetch the initial event and category data
         const response = await fetch("/events.json");
 
         if (!response.ok) {
@@ -177,7 +176,7 @@ export const EventsPage = () => {
             </Heading>
 
             <Text color="gray.600" mb={4}>
-              We could load the events right now. Please try again later.
+              We could not load the events right now. Please try again later.
             </Text>
 
             <Button
